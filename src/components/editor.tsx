@@ -7,6 +7,9 @@ import { ContentEditable } from '@lexical/react/LexicalContentEditable'
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin'
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary'
+import { $getSelection } from 'lexical'
+import ToolBarPlugin from './plugins/tool-bar'
+import { HeadingNode } from '@lexical/rich-text'
 
 const theme = {
 	heading: {
@@ -29,7 +32,7 @@ function onError(error: Error) {
 }
 
 interface EditorProps {
-	onChange: () => void
+	onChange?: () => void
 }
 
 function Editor({ onChange }: EditorProps) {
@@ -37,13 +40,15 @@ function Editor({ onChange }: EditorProps) {
 		namespace: '',
 		theme,
 		onError,
+		nodes: [HeadingNode],
 	}
 
 	return (
 		<LexicalComposer initialConfig={initialConfig}>
-			<div className="relative w-[50%] h-[300px] mx-auto text-white ">
+			<ToolBarPlugin />
+			<div className="relative w-[50%] h-[300px] mx-auto bg-white">
 				<RichTextPlugin
-					contentEditable={<ContentEditable className="h-full p-3 rounded-lg border focus-visible:outline-none" />}
+					contentEditable={<ContentEditable className="h-full p-3 border focus-visible:outline-none" />}
 					placeholder={<div className="absolute text-gray-700 top-0 left-0 p-3 pointer-events-none">Enter some text...</div>}
 					ErrorBoundary={LexicalErrorBoundary}
 				/>
