@@ -7,7 +7,7 @@ function ToolBarPlugin() {
 	return (
 		<div className="w-[50%] mx-auto flex">
 			<UndoRedo editor={editor} />
-			<Heading />
+			<Heading editor={editor} />
 		</div>
 	)
 }
