@@ -8,18 +8,31 @@ import { ChangeEvent } from 'react'
 
 const headingTags: HeadingTagType[] = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']
 
-function Heading({ editor }: { editor: LexicalEditor }) {
+interface HeadingProps {
+	editor: LexicalEditor
+}
+
+function Heading({ editor }: HeadingProps) {
 	const handleHeadingChange = (e: ChangeEvent<HTMLSelectElement>) => {
 		editor.update(() => {
 			const selection = $getSelection()
+			console.log(getSele)
+			if (!selection) {
+				return
+			}
 			$setBlocksType(selection, () => $createHeadingNode(e.target.value as HeadingTagType))
 		})
 	}
 
 	return (
 		<Select onChange={handleHeadingChange} radius="none" className="inline-block">
+			{/* {
+				<SelectItem key="normal" value="normal">
+					Normal
+				</SelectItem>
+			} */}
 			{headingTags.map((heading) => (
-				<SelectItem key={heading} value={heading}>
+				<SelectItem key={heading} value={heading} className="capitalize">
 					{heading}
 				</SelectItem>
 			))}
