@@ -1,16 +1,18 @@
+'use client'
+
 import { useCallback, useState, useEffect } from 'react'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
+import { $isDecoratorBlockNode } from '@lexical/react/LexicalDecoratorBlockNode'
 import { $isTableNode, $isTableSelection } from '@lexical/table'
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link'
-import { $createCodeNode, $isCodeNode, CODE_LANGUAGE_FRIENDLY_NAME_MAP, CODE_LANGUAGE_MAP, getLanguageFriendlyName } from '@lexical/code'
-import { $getSelectionStyleValueForProperty, $isParentElementRTL, $patchStyleText, $setBlocksType } from '@lexical/selection'
+import { $isCodeNode, CODE_LANGUAGE_MAP } from '@lexical/code'
+import { $getSelectionStyleValueForProperty, $isParentElementRTL, $patchStyleText } from '@lexical/selection'
 import { $findMatchingParent, $getNearestBlockElementAncestorOrThrow, $getNearestNodeOfType, mergeRegister } from '@lexical/utils'
-import { $createHeadingNode, $createQuoteNode, $isHeadingNode, $isQuoteNode, HeadingTagType } from '@lexical/rich-text'
-import { $isListNode, INSERT_CHECK_LIST_COMMAND, INSERT_ORDERED_LIST_COMMAND, INSERT_UNORDERED_LIST_COMMAND, ListNode } from '@lexical/list'
+import { $isHeadingNode, $isQuoteNode } from '@lexical/rich-text'
+import { $isListNode, ListNode } from '@lexical/list'
 import {
 	$createParagraphNode,
 	$getNodeByKey,
-	$getRoot,
 	$getSelection,
 	$isElementNode,
 	$isRangeSelection,
@@ -21,23 +23,21 @@ import {
 	COMMAND_PRIORITY_CRITICAL,
 	COMMAND_PRIORITY_NORMAL,
 	ElementFormatType,
-	FORMAT_ELEMENT_COMMAND,
-	FORMAT_TEXT_COMMAND,
-	INDENT_CONTENT_COMMAND,
 	KEY_MODIFIER_COMMAND,
-	LexicalEditor,
 	NodeKey,
-	OUTDENT_CONTENT_COMMAND,
-	REDO_COMMAND,
 	SELECTION_CHANGE_COMMAND,
-	UNDO_COMMAND,
 } from 'lexical'
 import { getSelectedNode } from '../utils/get-selected-node'
+import { sanitizeUrl } from '../utils/sanitize-url'
 // UI Components
 import Heading from './heading'
 import UndoRedo from './undo-redo'
 
-const blockTypeToBlockName = {
+interface ToolBarPlugin {
+	setIsLinkEditMode: (bool: boolean) => void
+}
+
+export const blockTypeToBlockName = {
 	bullet: 'Bulleted List',
 	check: 'Check List',
 	code: 'Code Block',
@@ -52,12 +52,12 @@ const blockTypeToBlockName = {
 	quote: 'Quote',
 }
 
-const rootTypeToRootName = {
+export const rootTypeToRootName = {
 	root: 'Root',
 	table: 'Table',
 }
 
-function ToolBarPlugin() {
+function ToolBarPlugin({ setIsLinkEditMode }: ToolBarPlugin) {
 	const [editor] = useLexicalComposerContext()
 	const [activeEditor, setActiveEditor] = useState(editor)
 	const [blockType, setBlockType] = useState<keyof typeof blockTypeToBlockName>('paragraph')
@@ -183,6 +183,10 @@ function ToolBarPlugin() {
 	}, [editor, $updateToolbar])
 
 	useEffect(() => {
+		console.log(blockType)
+	}, [blockType])
+
+	useEffect(() => {
 		return mergeRegister(
 			editor.registerEditableListener((editable) => {
 				setIsEditable(editable)
@@ -210,31 +214,6 @@ function ToolBarPlugin() {
 			)
 		)
 	}, [$updateToolbar, activeEditor, editor])
-
-	useEffect(() => {
-		return activeEditor.registerCommand(
-			KEY_MODIFIER_COMMAND,
-			(payload) => {
-				const event: KeyboardEvent = payload
-				const { code, ctrlKey, metaKey } = event
-
-				if (code === 'KeyK' && (ctrlKey || metaKey)) {
-					event.preventDefault()
-					let url: string | null
-					if (!isLink) {
-						setIsLinkEditMode(true)
-						url = sanitizeUrl('https://')
-					} else {
-						setIsLinkEditMode(false)
-						url = null
-					}
-					return activeEditor.dispatchCommand(TOGGLE_LINK_COMMAND, url)
-				}
-				return false
-			},
-			COMMAND_PRIORITY_NORMAL
-		)
-	}, [activeEditor, isLink, setIsLinkEditMode])
 
 	const applyStyleText = useCallback(
 		(styles: Record<string, string>, skipHistoryStack?: boolean) => {
@@ -344,14 +323,15 @@ function ToolBarPlugin() {
 		},
 		[activeEditor, selectedElementKey]
 	)
-	const insertGifOnClick = (payload: InsertImagePayload) => {
-		activeEditor.dispatchCommand(INSERT_IMAGE_COMMAND, payload)
-	}
+
+	// const insertGifOnClick = (payload: InsertImage) => {
+	// 	activeEditor.dispatchCommand(INSERT_IMAGE_COMMAND, payload)
+	// }
 
 	return (
 		<div className="w-[50%] mx-auto flex">
 			<UndoRedo editor={editor} />
-			<Heading editor={editor} />
+			<Heading blockType={blockType} rootType={rootType} editor={editor} />
 		</div>
 	)
 }
