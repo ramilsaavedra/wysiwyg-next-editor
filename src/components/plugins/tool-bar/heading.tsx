@@ -66,12 +66,11 @@ function Heading({ editor, blockType, rootType, disabled }: HeadingProps) {
 	}
 
 	const formatBulletList = () => {
-		editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined)
-		// if (blockType !== 'bullet') {
-
-		// } else {
-		// 	formatParagraph()
-		// }
+		if (blockType !== 'bullet') {
+			editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined)
+		} else {
+			formatParagraph()
+		}
 	}
 
 	const formatCheckList = () => {

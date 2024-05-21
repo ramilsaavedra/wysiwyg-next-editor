@@ -5,9 +5,10 @@ import { LexicalComposer } from '@lexical/react/LexicalComposer'
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
 import { ContentEditable } from '@lexical/react/LexicalContentEditable'
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
+import { ListPlugin } from '@lexical/react/LexicalListPlugin'
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin'
+import { ListNode, ListItemNode } from '@lexical/list'
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary'
-import { $getSelection } from 'lexical'
 import ToolBarPlugin from './plugins/tool-bar'
 import { HeadingNode } from '@lexical/rich-text'
 
@@ -25,6 +26,15 @@ const theme = {
 		italic: 'italic',
 		underline: 'underline-offset-1',
 	},
+	list: {
+		checklist: 'checklist',
+		listitem: 'list-disc ml-5',
+		listitemChecked: 'check',
+		listitemUnchecked: 'unchecked',
+		nested: {
+			listitem: 'nested',
+		},
+	},
 }
 
 function onError(error: Error) {
@@ -40,7 +50,7 @@ function Editor({ onChange }: EditorProps) {
 		namespace: '',
 		theme,
 		onError,
-		nodes: [HeadingNode],
+		nodes: [HeadingNode, ListNode, ListItemNode],
 	}
 
 	return (
@@ -52,7 +62,8 @@ function Editor({ onChange }: EditorProps) {
 					placeholder={<div className="absolute text-gray-700 top-0 left-0 p-3 pointer-events-none">Enter some text...</div>}
 					ErrorBoundary={LexicalErrorBoundary}
 				/>
-				<OnChangePlugin onChange={(editorState) => console.log(editorState, 'EDITOR STATE')} />
+				<OnChangePlugin />
+				<ListPlugin />
 				<HistoryPlugin />
 				<AutoFocusPlugin />
 			</div>
