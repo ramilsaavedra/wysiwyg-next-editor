@@ -1,16 +1,20 @@
 'use client'
-
-import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin'
+// CORE LIB
 import { LexicalComposer } from '@lexical/react/LexicalComposer'
-import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
 import { ContentEditable } from '@lexical/react/LexicalContentEditable'
+import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary'
+// PLUGINS
+import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin'
+import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
 import { ListPlugin } from '@lexical/react/LexicalListPlugin'
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin'
-import { ListNode, ListItemNode } from '@lexical/list'
-import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary'
-import ToolBarPlugin from './plugins/tool-bar'
+import { CheckListPlugin } from '@lexical/react/LexicalCheckListPlugin'
+// NODES
 import { HeadingNode } from '@lexical/rich-text'
+import { ListNode, ListItemNode } from '@lexical/list'
+// COMPONENT
+import ToolBarPlugin from './plugins/tool-bar'
 
 const theme = {
 	heading: {
@@ -24,11 +28,16 @@ const theme = {
 	text: {
 		bold: 'font-bold',
 		italic: 'italic',
-		underline: 'underline-offset-1',
+		underline: 'underline underline-offset-1',
+		strikethrough: 'line-through',
 	},
+	// TODO ADD CSS FOR NUMBERED LIST
 	list: {
+		ul: 'list-disc',
+		ol: 'list-decimal',
+		bulletlist: 'bulletlist',
 		checklist: 'checklist',
-		listitem: 'list-disc ml-5',
+		listitem: 'ml-5',
 		listitemChecked: 'check',
 		listitemUnchecked: 'unchecked',
 		nested: {
@@ -64,6 +73,7 @@ function Editor({ onChange }: EditorProps) {
 				/>
 				<OnChangePlugin />
 				<ListPlugin />
+				{/* <CheckListPlugin /> */}
 				<HistoryPlugin />
 				<AutoFocusPlugin />
 			</div>
