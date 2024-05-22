@@ -21,29 +21,42 @@ function Heading({ editor, blockType, rootType, disabled }: HeadingProps) {
 		switch (e.target?.value as typeof blockType) {
 			case 'paragraph':
 				formatParagraph()
-				break
+				return
 			case 'h1':
 				formatHeading('h1')
-				break
+				return
 			case 'h2':
 				formatHeading('h2')
-				break
+				return
 			case 'h3':
 				formatHeading('h3')
-				break
+				return
 			case 'h4':
 				formatHeading('h4')
-				break
+				return
 			case 'h5':
 				formatHeading('h5')
-				break
+				return
 			case 'h6':
 				formatHeading('h6')
-				break
+				return
 			case 'bullet':
 				formatBulletList()
+				return
+			// case 'check':
+			// 	formatCheckList()
+			// 	return
+			case 'number':
+				formatNumberedList()
+				return
+			// case 'quote':
+			// 	formatQuote()
+			// 	return
+			// case 'code':
+			// 	formatCode()
+			// 	return
 			default:
-				break
+				return
 		}
 	}
 
@@ -146,6 +159,18 @@ function Heading({ editor, blockType, rootType, disabled }: HeadingProps) {
 			<SelectItem key="bullet" value="bullet">
 				Bullet List
 			</SelectItem>
+			{/* <SelectItem key="check" value="check">
+				Check List
+			</SelectItem> */}
+			<SelectItem key="number" value="number">
+				Number List
+			</SelectItem>
+			{/* <SelectItem key="quote" value="quote">
+				Quote
+			</SelectItem>
+			<SelectItem key="code" value="code">
+				Code Block
+			</SelectItem> */}
 		</Select>
 	)
 }
