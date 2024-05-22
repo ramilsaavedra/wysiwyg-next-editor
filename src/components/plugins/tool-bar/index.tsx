@@ -34,6 +34,7 @@ import Heading from './heading'
 import UndoRedo from './undo-redo'
 import FormatToolBar from './format'
 import Format from './format'
+import Align from './align'
 
 interface ToolBarPlugin {
 	setIsLinkEditMode: (bool: boolean) => void
@@ -68,7 +69,6 @@ function ToolBarPlugin({ setIsLinkEditMode }: ToolBarPlugin) {
 	const [fontSize, setFontSize] = useState<string>('15px')
 	const [fontColor, setFontColor] = useState<string>('#000')
 	const [bgColor, setBgColor] = useState<string>('#fff')
-	const [fontFamily, setFontFamily] = useState<string>('Arial')
 	const [elementFormat, setElementFormat] = useState<ElementFormatType>('left')
 	const [isLink, setIsLink] = useState(false)
 	const [isBold, setIsBold] = useState(false)
@@ -148,7 +148,6 @@ function ToolBarPlugin({ setIsLinkEditMode }: ToolBarPlugin) {
 			// Handle buttons
 			setFontColor($getSelectionStyleValueForProperty(selection, 'color', '#000'))
 			setBgColor($getSelectionStyleValueForProperty(selection, 'background-color', '#fff'))
-			setFontFamily($getSelectionStyleValueForProperty(selection, 'font-family', 'Arial'))
 			let matchingParent
 			if ($isLinkNode(parent)) {
 				// If node is a link, we need to fetch the parent paragraph node to set format
@@ -329,9 +328,10 @@ function ToolBarPlugin({ setIsLinkEditMode }: ToolBarPlugin) {
 
 	return (
 		<div className="w-[50%] mx-auto flex">
-			<UndoRedo editor={editor} canUndo={canUndo} canRedo={canRedo} />
-			<Heading editor={editor} blockType={blockType} rootType={rootType} />
-			<Format editor={editor} isBold={isBold} isItalic={isItalic} isUnderline={isUnderline} isStrikethrough={isStrikethrough} />
+			<UndoRedo editor={activeEditor} canUndo={canUndo} canRedo={canRedo} />
+			<Heading editor={activeEditor} blockType={blockType} rootType={rootType} />
+			<Format editor={activeEditor} isBold={isBold} isItalic={isItalic} isUnderline={isUnderline} isStrikethrough={isStrikethrough} />
+			<Align editor={activeEditor} align={elementFormat} />
 		</div>
 	)
 }
