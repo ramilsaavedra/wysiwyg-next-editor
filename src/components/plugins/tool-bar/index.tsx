@@ -32,6 +32,8 @@ import { sanitizeUrl } from '../utils/sanitize-url'
 // UI Components
 import Heading from './heading'
 import UndoRedo from './undo-redo'
+import FormatToolBar from './format'
+import Format from './format'
 
 interface ToolBarPlugin {
 	setIsLinkEditMode: (bool: boolean) => void
@@ -107,9 +109,6 @@ function ToolBarPlugin({ setIsLinkEditMode }: ToolBarPlugin) {
 			setIsItalic(selection.hasFormat('italic'))
 			setIsUnderline(selection.hasFormat('underline'))
 			setIsStrikethrough(selection.hasFormat('strikethrough'))
-			setIsSubscript(selection.hasFormat('subscript'))
-			setIsSuperscript(selection.hasFormat('superscript'))
-			setIsCode(selection.hasFormat('code'))
 			setIsRTL($isParentElementRTL(selection))
 
 			// Update links
@@ -330,8 +329,9 @@ function ToolBarPlugin({ setIsLinkEditMode }: ToolBarPlugin) {
 
 	return (
 		<div className="w-[50%] mx-auto flex">
-			<UndoRedo editor={editor} />
-			<Heading blockType={blockType} rootType={rootType} editor={editor} />
+			<UndoRedo editor={editor} canUndo={canUndo} canRedo={canRedo} />
+			<Heading editor={editor} blockType={blockType} rootType={rootType} />
+			<Format editor={editor} isBold={isBold} isItalic={isItalic} isUnderline={isUnderline} isStrikethrough={isStrikethrough} />
 		</div>
 	)
 }
