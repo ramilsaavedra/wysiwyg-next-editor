@@ -134,7 +134,7 @@ function Heading({ editor, blockType, rootType, disabled }: HeadingProps) {
 	}
 
 	return (
-		<Select onChange={handleSelectChange} radius="none" className="inline-block" selectedKeys={[blockType]}>
+		<Select onChange={handleSelectChange} radius="none" selectedKeys={[blockType]}>
 			<SelectItem key="paragraph" value="paragraph">
 				Normal
 			</SelectItem>

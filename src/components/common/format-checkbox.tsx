@@ -17,7 +17,12 @@ function FormatCheckbox({ children, isSelected, onValueChange }: FormatCheckboxP
 			<VisuallyHidden>
 				<input {...getInputProps()} />
 			</VisuallyHidden>
-			<div className={cn('rounded-none border h-10 w-10 flex items-center justify-center', isSelected ? 'bg-gray-400' : 'bg-gray-200')}>
+			<div
+				className={cn(
+					'rounded-none border h-10 w-10 flex items-center justify-center',
+					isSelected ? 'bg-gray-400 text-black' : 'text-gray-600 bg-gray-200'
+				)}
+			>
 				{children}
 			</div>
 		</label>

@@ -1,4 +1,4 @@
-import { Button, cn } from '@nextui-org/react'
+import { Button, Tooltip, cn } from '@nextui-org/react'
 import { LexicalEditor, REDO_COMMAND, UNDO_COMMAND } from 'lexical'
 
 interface UndoRedoProps {
@@ -20,7 +20,7 @@ function UndoRedo({ editor, canUndo, canRedo }: UndoRedoProps) {
 		<div className="flex">
 			<Button
 				isIconOnly
-				className={cn('rounded-none', canUndo ? 'bg-gray-200' : 'bg-gray-100 text-gray-400 cursor-not-allowed')}
+				className={cn('rounded-none', canUndo ? 'bg-gray-200' : 'bg-gray-100 text-gray-300 cursor-not-allowed')}
 				onClick={handleUndo}
 				disabled={!canUndo}
 			>
@@ -35,7 +35,7 @@ function UndoRedo({ editor, canUndo, canRedo }: UndoRedoProps) {
 			</Button>
 			<Button
 				isIconOnly
-				className={cn('rounded-none', canRedo ? 'bg-gray-200' : 'bg-gray-100 text-gray-400 cursor-not-allowed')}
+				className={cn('rounded-none', canRedo ? 'bg-gray-200' : 'bg-gray-100 text-gray-300 cursor-not-allowed')}
 				onClick={handleRedo}
 				disabled={!canRedo}
 			>
