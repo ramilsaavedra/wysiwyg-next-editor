@@ -1,4 +1,4 @@
-const basicColors = ['#A0153E', '#5D0E41', '#00224D', '#000000', '#444444', '#333333', '#666666', '#00FFFFFF']
+const basicColors = ['#A0153E', '#5D0E41', '#00224D', '#000000', '#444444', '#333333', '#666666', '#FFFFFF']
 
 interface ColorPickerProps {
 	id: string
