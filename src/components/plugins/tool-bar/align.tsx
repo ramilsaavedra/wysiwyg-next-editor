@@ -37,7 +37,7 @@ function Align({ editor, align }: AlignProps) {
 	}
 
 	return (
-		<Select onChange={handleSelectChange} radius="none" selectedKeys={[align]}>
+		<Select onChange={handleSelectChange} radius="none" selectedKeys={[align]} placeholder="Align">
 			<SelectItem key="left" value="left">
 				Left Align
 			</SelectItem>
