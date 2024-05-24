@@ -36,6 +36,8 @@ import FormatToolBar from './format'
 import Format from './format'
 import Align from './align'
 import Size from './size'
+import Color from './color'
+import BGColor from './bg-color'
 
 interface ToolBarPlugin {
 	setIsLinkEditMode: (bool: boolean) => void
@@ -147,7 +149,7 @@ function ToolBarPlugin({ setIsLinkEditMode }: ToolBarPlugin) {
 				}
 			}
 			// Handle buttons
-			setFontColor($getSelectionStyleValueForProperty(selection, 'color', '#000'))
+			setFontColor($getSelectionStyleValueForProperty(selection, 'color', '#000000'))
 			setBgColor($getSelectionStyleValueForProperty(selection, 'background-color', '#fff'))
 			let matchingParent
 			if ($isLinkNode(parent)) {
@@ -333,6 +335,8 @@ function ToolBarPlugin({ setIsLinkEditMode }: ToolBarPlugin) {
 			<Heading editor={activeEditor} blockType={blockType} rootType={rootType} />
 			<Size editor={activeEditor} fontSize={fontSize} />
 			<Format editor={activeEditor} isBold={isBold} isItalic={isItalic} isUnderline={isUnderline} isStrikethrough={isStrikethrough} />
+			<Color color={fontColor} onChange={onFontColorSelect} />
+			<BGColor color={bgColor} onChange={onBgColorSelect} />
 			<Align editor={activeEditor} align={elementFormat} />
 		</div>
 	)
