@@ -35,6 +35,7 @@ import UndoRedo from './undo-redo'
 import FormatToolBar from './format'
 import Format from './format'
 import Align from './align'
+import Size from './size'
 
 interface ToolBarPlugin {
 	setIsLinkEditMode: (bool: boolean) => void
@@ -330,6 +331,7 @@ function ToolBarPlugin({ setIsLinkEditMode }: ToolBarPlugin) {
 		<div className="w-[50%] mx-auto flex">
 			<UndoRedo editor={activeEditor} canUndo={canUndo} canRedo={canRedo} />
 			<Heading editor={activeEditor} blockType={blockType} rootType={rootType} />
+			<Size editor={activeEditor} fontSize={fontSize} />
 			<Format editor={activeEditor} isBold={isBold} isItalic={isItalic} isUnderline={isUnderline} isStrikethrough={isStrikethrough} />
 			<Align editor={activeEditor} align={elementFormat} />
 		</div>
