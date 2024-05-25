@@ -15,7 +15,7 @@ function InsertImageModal({ disclosure }: InsertImageModalProps) {
 				<ModalContent>
 					{(onClose) => (
 						<>
-							<ModalHeader className="flex flex-col gap-1">Insert Image</ModalHeader>
+							<ModalHeader className="flex flex-col gap-1">Insert image</ModalHeader>
 							<ModalBody>
 								<div className="grid grid-cols-[auto,1fr] gap-5">
 									<label htmlFor="file" className="my-auto">
