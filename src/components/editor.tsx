@@ -15,6 +15,8 @@ import { HeadingNode } from '@lexical/rich-text'
 import { ListNode, ListItemNode } from '@lexical/list'
 // COMPONENT
 import ToolBarPlugin from './plugins/tool-bar'
+import InlineImagePlugin from './plugins/image-plugin'
+import { InlineImageNode } from './plugins/image-plugin/image-node'
 
 const theme = {
 	heading: {
@@ -59,7 +61,7 @@ function Editor({ onChange }: EditorProps) {
 		namespace: '',
 		theme,
 		onError,
-		nodes: [HeadingNode, ListNode, ListItemNode],
+		nodes: [HeadingNode, ListNode, ListItemNode, InlineImageNode],
 	}
 
 	return (
@@ -76,6 +78,7 @@ function Editor({ onChange }: EditorProps) {
 				{/* <CheckListPlugin /> */}
 				<HistoryPlugin />
 				<AutoFocusPlugin />
+				<InlineImagePlugin />
 			</div>
 		</LexicalComposer>
 	)

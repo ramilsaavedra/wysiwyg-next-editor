@@ -21,7 +21,7 @@ function Insert({ editor }: InsertProps) {
 					</DropdownItem>
 				</DropdownMenu>
 			</Dropdown>
-			<InsertImageModal disclosure={imageModal} />
+			<InsertImageModal editor={editor} disclosure={imageModal} />
 		</>
 	)
 }
