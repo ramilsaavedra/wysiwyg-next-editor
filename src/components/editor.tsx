@@ -46,6 +46,7 @@ const theme = {
 			listitem: 'nested',
 		},
 	},
+	paragraph: 'relative block',
 }
 
 function onError(error: Error) {
@@ -67,7 +68,7 @@ function Editor({ onChange }: EditorProps) {
 	return (
 		<LexicalComposer initialConfig={initialConfig}>
 			<ToolBarPlugin />
-			<div className="relative w-[50%] h-[300px] mx-auto bg-white">
+			<div className="relative w-full h-[300px] mx-auto bg-white">
 				<RichTextPlugin
 					contentEditable={<ContentEditable className="h-full p-3 border focus-visible:outline-none" />}
 					placeholder={<div className="absolute text-gray-700 top-0 left-0 p-3 pointer-events-none">Enter some text...</div>}

@@ -213,21 +213,19 @@ export class InlineImageNode extends DecoratorNode<JSX.Element> {
 		}
 	}
 
-	// View
-
 	createDOM(config: EditorConfig): HTMLElement {
-		const span = document.createElement('span')
-		const className = `${config.theme.inlineImage} position-${this.__position}`
+		const div = document.createElement('div')
+		const className = `inline-block relative z-10 position-${this.__position}`
 		if (className !== undefined) {
-			span.className = className
+			div.className = className
 		}
-		return span
+		return div
 	}
 
 	updateDOM(prevNode: InlineImageNode, dom: HTMLElement, config: EditorConfig): false {
 		const position = this.__position
 		if (position !== prevNode.__position) {
-			const className = `${config.theme.inlineImage} position-${position}`
+			const className = `inline-block relative z-10 position-${position}`
 			if (className !== undefined) {
 				dom.className = className
 			}

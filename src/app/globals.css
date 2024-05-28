@@ -22,3 +22,15 @@
 		border: none;
 	}
 }
+
+.position-right {
+	float: right;
+}
+
+.position-left {
+	float: left;
+}
+
+.position-full {
+	width: 100%;
+}

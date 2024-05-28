@@ -218,17 +218,15 @@ export default function InlineImageComponent({
 	const isFocused = isSelected
 	return (
 		<Suspense fallback={null}>
-			<>
-				<LazyImage
-					className={isFocused ? `border-cyan-900 border-1.5 ${$isNodeSelection(selection) ? 'draggable' : ''}` : null}
-					src={src}
-					altText={altText}
-					imageRef={imageRef}
-					width={width}
-					height={height}
-					position={position}
-				/>
-			</>
+			<LazyImage
+				className={isFocused ? `border-cyan-900 border-1.5 ${$isNodeSelection(selection) ? 'draggable' : ''}` : null}
+				src={src}
+				altText={altText}
+				imageRef={imageRef}
+				width={width}
+				height={height}
+				position={position}
+			/>
 		</Suspense>
 	)
 }
