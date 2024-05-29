@@ -22,6 +22,7 @@ import * as React from 'react'
 import { Suspense, useCallback, useEffect, useRef, useState } from 'react'
 
 import { $isInlineImageNode } from './image-node'
+import { cn } from '@nextui-org/react'
 
 const imageCache = new Set()
 
@@ -74,25 +75,16 @@ function LazyImage({
 	)
 }
 
-export default function InlineImageComponent({
-	src,
-	altText,
-	nodeKey,
-	width,
-	height,
-	showCaption,
-	caption,
-	position,
-}: {
+interface InlineImageComponentProps {
 	altText: string
-	caption: LexicalEditor
 	height: 'inherit' | number
 	nodeKey: NodeKey
-	showCaption: boolean
 	src: string
 	width: 'inherit' | number
 	position: Position
-}): JSX.Element {
+}
+
+export default function InlineImageComponent({ src, altText, nodeKey, width, height, position }: InlineImageComponentProps): JSX.Element {
 	const imageRef = useRef<null | HTMLImageElement>(null)
 	const buttonRef = useRef<HTMLButtonElement | null>(null)
 	const [isSelected, setSelected, clearSelection] = useLexicalNodeSelection(nodeKey)
@@ -121,13 +113,7 @@ export default function InlineImageComponent({
 			const latestSelection = $getSelection()
 			const buttonElem = buttonRef.current
 			if (isSelected && $isNodeSelection(latestSelection) && latestSelection.getNodes().length === 1) {
-				if (showCaption) {
-					// Move focus into nested editor
-					$setSelection(null)
-					event.preventDefault()
-					caption.focus()
-					return true
-				} else if (buttonElem !== null && buttonElem !== document.activeElement) {
+				if (buttonElem !== null && buttonElem !== document.activeElement) {
 					event.preventDefault()
 					buttonElem.focus()
 					return true
@@ -135,12 +121,12 @@ export default function InlineImageComponent({
 			}
 			return false
 		},
-		[caption, isSelected, showCaption]
+		[isSelected]
 	)
 
 	const $onEscape = useCallback(
 		(event: KeyboardEvent) => {
-			if (activeEditorRef.current === caption || buttonRef.current === event.target) {
+			if (buttonRef.current === event.target) {
 				$setSelection(null)
 				editor.update(() => {
 					setSelected(true)
@@ -153,7 +139,7 @@ export default function InlineImageComponent({
 			}
 			return false
 		},
-		[caption, editor, setSelected]
+		[editor, setSelected]
 	)
 
 	useEffect(() => {
@@ -219,7 +205,7 @@ export default function InlineImageComponent({
 	return (
 		<Suspense fallback={null}>
 			<LazyImage
-				className={isFocused ? `border-cyan-900 border-1.5 ${$isNodeSelection(selection) ? 'draggable' : ''}` : null}
+				className={cn('box-boder border-2', isFocused ? `border-blue-700 ${$isNodeSelection(selection) ? 'draggable' : null}` : null)}
 				src={src}
 				altText={altText}
 				imageRef={imageRef}

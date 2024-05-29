@@ -19,14 +19,9 @@ function InsertImageModal({ disclosure, editor }: InsertImageModalProps) {
 
 	const [src, setSrc] = useState('')
 	const [altText, setAltText] = useState('')
-	const [showCaption, setShowCaption] = useState(false)
 	const [position, setPosition] = useState<Position>('left')
 
 	const isDisabled = src === ''
-
-	const handleShowCaptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setShowCaption(e.target.checked)
-	}
 
 	const handlePositionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		setPosition(e.target.value as Position)
@@ -57,7 +52,7 @@ function InsertImageModal({ disclosure, editor }: InsertImageModalProps) {
 	}, [editor])
 
 	const handleOnClick = () => {
-		const payload = { altText, position, showCaption, src }
+		const payload = { altText, position, src }
 		editor.dispatchCommand(INSERT_INLINE_IMAGE_COMMAND, payload)
 		onClose()
 	}
@@ -94,9 +89,10 @@ function InsertImageModal({ disclosure, editor }: InsertImageModalProps) {
 										Position
 									</label>
 									<select
-										style={{ marginBottom: '1em', width: '290px' }}
+										className="px-3 py-2 rounded-md bg-white border border-gray-900"
 										name="position"
 										id="position-select"
+										value={position}
 										onChange={handlePositionChange}
 									>
 										<option value="left">Left</option>
